@@ -1,0 +1,55 @@
+{
+	"api_version": "2.2",
+	"uri": "https://api.napster.com",
+	"apis": [
+		{
+			"path": "oauth",
+			"apis": [
+				{
+					"path": "token",
+					"method": "POST",
+					"user_auth_req": false,
+					"app_cred_req": true,
+					"params": ["username", "password", "grant_type"]
+				},
+				{
+					"path": "access_token",
+					"method": "POST",
+					"user_auth_req": false,
+					"app_cred_req": false,
+					"params": ["client_id", "client_secret", "response_type", "grant_type", "refresh_token"]
+				}
+			]
+		},
+		{
+			"path": "v2.2",
+			"apis": [
+				{
+					"path": "me",
+					"apis": [
+						{
+							"path": "favorites",
+							"method": "GET",
+							"user_auth_req": true,
+							"app_cred_req": false,
+							"params": ["filter", "rights", "limit", "offset", "catalog"]
+						}
+					]
+				},
+				{
+					"path": "search",
+					"method": "GET",
+					"user_auth_req": false,
+					"app_cred_req": false,
+					"params": ["query", "type", "limit", "per_type_limit", "offset", "playlist_type"]
+				},
+				{
+					"path": "versions",
+					"user_auth_req": false,
+					"app_cred_req": false,
+					"method": "GET"
+				}
+			]
+		}
+	]
+}
