@@ -25,14 +25,209 @@
 			"path": "v2.2",
 			"apis": [
 				{
+					"path": "artists",
+					"apis": [
+						{
+							"path": "top",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["limit", "offset", "range"]
+						}
+					]
+				},
+				{
+					"path": "albums",
+					"apis": [
+						{
+							"path": "new",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["limit", "offset"]
+						},
+						{
+							"path": "picks",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false
+						},
+						{
+							"path": "top",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["limit", "offset", "range"]
+						}
+					]
+				},
+				{
+					"path": "tracks",
+					"apis": [
+						{
+							"path": "top",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["limit", "offset", "range"]
+						}
+					]
+				},
+				{
+					"path": "genres",
+					"method": "GET",
+					"user_auth_req": false,
+					"app_cred_req": false,
+					"params": ["lang"]
+				},
+				{
+					"path": "playlists",
+					"apis": [
+						{
+							"path": "featured",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["limit", "offset"]
+						},
+						{
+							"path": "top",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["limit", "offset", "range"]
+						}
+					]
+				},
+				{
+					"path": "stations",
+					"method": "GET",
+					"user_auth_req": false,
+					"app_cred_req": false,
+					"params": ["limit", "offset"],
+					"apis": [
+						{
+							"path": "top",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["limit", "offset"]
+						},
+						{
+							"path": "decade",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false
+						}
+					]
+				},
+				{
+					"path": "posts",
+					"method": "GET",
+					"user_auth_req": false,
+					"app_cred_req": false,
+					"params": ["limit", "offset"],
+					"apis": [
+						{
+							"path": "categories",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false
+						}
+					]
+				},
+				{
+					"path": "tags",
+					"method": "GET",
+					"user_auth_req": false,
+					"app_cred_req": false,
+					"params": ["includeHidden"],
+					"apis": [
+						{
+							"path": "featured",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false
+						}
+					]
+				},
+				{
 					"path": "me",
 					"apis": [
+						{
+							"path": "account",
+							"method": "GET",
+							"user_auth_req": true,
+							"app_cred_req": false
+						},
 						{
 							"path": "favorites",
 							"method": "GET",
 							"user_auth_req": true,
 							"app_cred_req": false,
-							"params": ["filter", "rights", "limit", "offset", "catalog"]
+							"params": ["filter", "rights", "limit", "offset", "catalog"],
+							"apis": [
+								{
+									"path": "status",
+									"method": "GET",
+									"user_auth_req": true,
+									"app_cred_req": false,
+									"params": ["ids"]
+								}
+							]
+						},
+						{
+							"path": "library",
+							"apis": [
+								{
+									"path": "artists",
+									"method": "GET",
+									"user_auth_req": true,
+									"app_cred_req": false,
+									"params": ["limit", "offset"]
+								},
+								{
+									"path": "albums",
+									"method": "GET",
+									"user_auth_req": true,
+									"app_cred_req": false,
+									"params": ["limit", "offset"]
+								},
+								{
+									"path": "tracks",
+									"method": "GET",
+									"user_auth_req": true,
+									"app_cred_req": false,
+									"params": ["limit", "offset"]
+								},
+								{
+									"path": "playlists",
+									"method": "GET",
+									"user_auth_req": true,
+									"app_cred_req": false,
+									"params": ["limit", "offset", "sort"]
+								},
+								{
+									"path": "stations",
+									"method": "GET",
+									"user_auth_req": true,
+									"app_cred_req": false,
+									"params": ["limit", "offset"]
+								},
+								{
+									"path": "updated",
+									"method": "GET",
+									"user_auth_req": true,
+									"app_cred_req": false
+								}
+							]
+						},
+						{
+							"path": "listens",
+							"method": "GET",
+							"user_auth_req": true,
+							"app_cred_req": false,
+							"params": ["limit", "offset"]
 						}
 					]
 				},
@@ -41,7 +236,16 @@
 					"method": "GET",
 					"user_auth_req": false,
 					"app_cred_req": false,
-					"params": ["query", "type", "limit", "per_type_limit", "offset", "playlist_type"]
+					"params": ["query", "type", "limit", "per_type_limit", "offset", "playlist_type"],
+					"apis": [
+						{
+							"path": "verbose",
+							"method": "GET",
+							"user_auth_req": false,
+							"app_cred_req": false,
+							"params": ["query", "type", "limit", "per_type_limit", "offset", "playlist_type"]
+						}
+					]
 				},
 				{
 					"path": "versions",

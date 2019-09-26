@@ -32,7 +32,8 @@ class NapsterAPI:
 		self._load_api_json()
 
 	def _follow_api_path(self, path_list, api_dict):
-		#TODO: handle potential empty path after end '/'
+		# TODO: handle path values (e.g. Artists/Art.*), POST/PUT/DELETE items
+		# (e.g. me/favories), and potential empty path after end '/'
 		for api in api_dict['apis']:
 			if api['path'] == path_list[0]:
 				if len(path_list) > 1:
@@ -44,7 +45,7 @@ class NapsterAPI:
 
 	def _load_api_json(self):
 
-		#load json from file
+		# load json from file
 		with open(__json_local_filename__, 'r') as file:
 			self._api_json = json.load(file)
 		
