@@ -2,18 +2,25 @@
 
 import click
 
+import rypynapa_util as util #rypynapa_util.py
+
 from rypynapa_api_2_2 import NapsterAPI #rypynapa_api_2.2.py
 
 _napster_api = NapsterAPI() #API object
 
 @click.command()
 @click.option('-p', '--path', prompt='Path', help='request/path?params')
-def click_cmd(path):
-	#TODO: add option to save response to local file ("archive")
+@click.option('-a', '--archive', prompt=False, help='file to save response .json')
+def click_cmd(path, archive):
+
 	response_content = _napster_api.request_api(path)
-	print('Response content:\n%s' % (response_content))
 
-
+	if archive == None or type(response_content) != dict:
+		print('Response content:\n%s' % (response_content))
+	else:
+		# filename provided and JSON (presumably) returned
+		if util.save_json(archive, response_content):
+			print('Response content archived to %s' % (archive))
 
 def click_prompt_auth():
 	user = click.prompt('User authentication required\nUsername')

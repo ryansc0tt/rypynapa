@@ -1,4 +1,5 @@
 # This script defines a simple Napster API abstraction
+# based on developer API version 2.2 [https://developer.napster.com/api/v2.2]
 
 __config_local_filename__ = 'rypynapa_app.cfg'
 __json_local_filename__ = 'rypynapa_api_2.2.json'
