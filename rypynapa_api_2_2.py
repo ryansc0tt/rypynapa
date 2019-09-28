@@ -4,7 +4,7 @@
 __config_local_filename__ = 'rypynapa_app.cfg'
 __json_local_filename__ = 'rypynapa_api_2.2.json'
 
-import datetime, json, sys
+import datetime, json, re, sys
 import requests
 
 from urllib import parse
@@ -33,16 +33,31 @@ class NapsterAPI:
 		self._load_api_json()
 
 	def _follow_api_path(self, path_list, api_dict):
-		# TODO: handle path values (e.g. Artists/Art.*), POST/PUT/DELETE items
-		# (e.g. me/favories), and potential empty path after end '/'
+		# TODO: POST/PUT/DELETE items (e.g. me/favories), and
+		# potential empty path after end '/'
+
+		api_found = False #follow flag
+
 		for api in api_dict['apis']:
+
+			# check API path
 			if api['path'] == path_list[0]:
+				api_found = True
+
+			# check ID / value as applicable
+			elif 'path_regex' in api.keys():
+				pattern = re.compile(api['path_regex'])
+				if pattern.match(path_list[0]) != None:
+					api_found = True
+
+			if api_found:
 				if len(path_list) > 1:
 					api = self._follow_api_path(path_list[1:], api)
 				if 'method' in api.keys(): # valid endpoint
 					return api
 
-		return {} #empty if not resolved
+		if not api_found:
+			return {} #empty if not resolved
 
 	def _load_api_json(self):
 
@@ -133,10 +148,12 @@ class NapsterAPI:
 
 		# follow the requested path to get API endpoint
 		request_path = path_query.path.split('/')
+		
 		requested_api = self._follow_api_path(request_path, self._api_json)
 		
 		if len(requested_api) < 1: #try prepending default path
 			request_path.insert(0, self._api_version_path)
+			
 			requested_api = self._follow_api_path(request_path, self._api_json)
 
 		# perform request if we have a valid endpoint

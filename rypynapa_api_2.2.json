@@ -205,7 +205,25 @@
 									"method": "GET",
 									"user_auth_req": true,
 									"app_cred_req": false,
-									"params": ["limit", "offset", "sort"]
+									"params": ["limit", "offset", "sort"],
+									"apis": [
+										{
+											"path": "{playistID}",
+											"path_regex": "mp.\\d*",
+											"method": "GET",
+											"user_auth_req": true,
+											"app_cred_req": false,
+											"apis": [
+												{
+													"path": "tracks",
+													"method": "GET",
+													"user_auth_req": true,
+													"app_cred_req": false,
+													"params": ["limit", "offset"]
+												}
+											]
+										}
+									]
 								},
 								{
 									"path": "stations",
