@@ -70,7 +70,9 @@ class NapsterAPI:
 		else:
 			self._api_version_path = 'v%s' % (self._api_json['api_version']) #set default path
 
-	def _load_app_config(self, config_app_options=[]):
+	def _load_app_config(self, config_app_options=None):
+
+		if config_app_options is None: config_app_options = [] # default arg
 
 		# required config options from file
 		config_app_items = util.read_config(__config_local_filename__, 'napster_app')
@@ -142,7 +144,12 @@ class NapsterAPI:
 	def register_param_prompt(self, func):
 		self._param_prompt = func
 
-	def request_api(self, path, params={}, headers={}, auth=()):
+	def request_api(self, path, params=None, headers=None, auth=None):
+
+		# default args
+		if params is None: params = {}
+		if headers is None: headers = {}
+		if auth is None: auth = ()
 
 		path_query = parse.urlsplit(path) #assume correctly formatted path/query
 

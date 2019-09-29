@@ -19,7 +19,9 @@ def read_config(filename, section):
 	else:
 		return {}
 
-def shelve_dict(name, data={}):
+def shelve_dict(name, data=None):
+
+	if data is None: data = {} # default arg
 
 	if len(data) > 0:
 		with shelve.open(name) as db:
