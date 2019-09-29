@@ -191,7 +191,24 @@
 									"method": "GET",
 									"user_auth_req": true,
 									"app_cred_req": false,
-									"params": ["limit", "offset"]
+									"params": ["limit", "offset"],
+									"apis": [
+										{
+											"path": "{albumID}",
+											"path_regex": "alb.\\d*",
+											"method": "GET",
+											"user_auth_req": true,
+											"app_cred_req": false,
+											"apis": [
+												{
+													"path": "tracks",
+													"method": "GET",
+													"user_auth_req": true,
+													"app_cred_req": false
+												}
+											]
+										}
+									]
 								},
 								{
 									"path": "tracks",
