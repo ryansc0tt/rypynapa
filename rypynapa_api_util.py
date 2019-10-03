@@ -19,6 +19,7 @@ def read_config(filename, section):
 	else:
 		return {}
 
+# Save given [data: dict] to persistent file [name: str] using shelve()
 def shelve_dict(name, data=None):
 
 	if data is None: data = {} # default arg
@@ -28,6 +29,8 @@ def shelve_dict(name, data=None):
 			db[name] = data
 			db.close()
 
+# Retrieve data from persistent file [name: str] using shelve()
+# Returns data (expected as dict)
 def unshelve_dict(name):
 
 	data = {}

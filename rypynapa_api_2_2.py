@@ -22,7 +22,6 @@ class NapsterAPI:
 	def _auth_prompt(self): pass  # callback function to prompt for user authorization
 	def _param_prompt(self): pass # callback function to prompt for query params
 
-
 	def __init__(self):
 
 		# set API key for app
@@ -32,9 +31,12 @@ class NapsterAPI:
 		# load JSON object containing API definition
 		self._load_api_json()
 
+	# Recursively follows and returns API definition for [path_list: str]
+	# from given [api_dict: dict] 
+	# Returns API definition as {key: value} pairs, or empty dict
 	def _follow_api_path(self, path_list, api_dict):
-		# TODO: POST/PUT/DELETE items (e.g. me/favories), and
-		# potential empty path after end '/'
+		# TODO: currently no support for POST/PUT/DELETE items (e.g. me/favorites),
+		# and potential path permutations i.e. ending '/'
 
 		api_found = False #follow flag
 
@@ -59,6 +61,7 @@ class NapsterAPI:
 		if not api_found:
 			return {} #empty if not resolved
 
+	# Loads API definition to member var from file as defined in __json_local_filename__
 	def _load_api_json(self):
 
 		# load json from file
@@ -70,6 +73,9 @@ class NapsterAPI:
 		else:
 			self._api_version_path = 'v%s' % (self._api_json['api_version']) #set default path
 
+	# Loads "napster app" configuration from file as defined in __config_local_filename__
+	# given [config_app_options: dict]
+	# Returns app configuration itmes (expected as dict)
 	def _load_app_config(self, config_app_options=None):
 
 		if config_app_options is None: config_app_options = [] # default arg
@@ -84,6 +90,10 @@ class NapsterAPI:
 		else:
 			return config_app_items
 
+	# Loads API authorization token from:
+	# 1. Persistent storage
+	# 2. Napster API (new token; request authorization via user prompt)
+	# or refreshes existing token if it has not yet expired
 	def _load_auth_token(self):
 
 		# try stored data
@@ -124,11 +134,13 @@ class NapsterAPI:
 		if self._auth_token == None:
 			sys.exit('Could not load token for authentication')
 
+	# Saves API authorization token incl. expiration timestamp to persistent storage
 	def _save_auth_token(self):
 
 		util.shelve_dict('auth_token', {'auth_token_data': self._auth_token,
 			'auth_token_exp': self._auth_token_exp})
 
+	# Sets API authorization token to member var incl. expiration timestamp
 	def _set_auth_token(self, auth_token):
 
 		self._auth_token = auth_token
@@ -144,6 +156,13 @@ class NapsterAPI:
 	def register_param_prompt(self, func):
 		self._param_prompt = func
 
+	# Processes and submits API request given [path: str]
+	# matching a valid path in the API definition config
+	# Optionally uses given [params: dict] as query parameters, otherwise:
+	# 1. processes params from given [path: str]
+	# 2. requests params via user prompt
+	# Optionally uses given [headers: dict] or [auth: dict], e.g. for app authentication
+	# Returns response content (deserialized JSON if applicable)
 	def request_api(self, path, params=None, headers=None, auth=None):
 
 		# default args

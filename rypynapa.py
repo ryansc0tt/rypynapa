@@ -8,6 +8,8 @@ from rypynapa_api_2_2 import NapsterAPI #rypynapa_api_2.2.py
 
 _napster_api = NapsterAPI() #API object
 
+# Initiate interface, process input [path: str] (submit API request), and display response
+# Optionally save response to [archive: str] file instead
 @click.command()
 @click.option('-p', '--path', prompt='Path', help='request/path?params')
 @click.option('-a', '--archive', prompt=False, help='file to save response .json')
@@ -22,11 +24,15 @@ def click_cmd(path, archive):
 		if util.save_json(archive, response_content):
 			print('Response content archived to %s' % (archive))
 
+# Request user authorization using click.prompt()
+# Returns (user, pwd) as str tuple
 def click_prompt_auth():
 	user = click.prompt('User authentication required\nUsername')
 	pwd = click.prompt('Password', hide_input=True)
 	return(user, pwd)
 
+# Request query [param: str] using click.prompt()
+# Returns param_val as str
 def click_prompt_param(param):
 	param_val = click.prompt('%s' % (param),
 		prompt_suffix='? ', default='', show_default=False)
