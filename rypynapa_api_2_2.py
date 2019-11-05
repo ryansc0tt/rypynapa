@@ -69,9 +69,9 @@ class NapsterAPI:
 			self._api_json = json.load(file)
 		
 		if self._api_json == None:
-			sys.exit('API definition was not loaded from file %s' % (__json_local_filename__))
+			sys.exit(f'API definition was not loaded from file {__json_local_filename__}')
 		else:
-			self._api_version_path = 'v%s' % (self._api_json['api_version']) #set default path
+			self._api_version_path = f"v{self._api_json['api_version']}" #set default path
 
 	# Loads "napster app" configuration from file as defined in __config_local_filename__
 	# given [config_app_options: dict]
@@ -85,8 +85,7 @@ class NapsterAPI:
 
 		if not (
 			all(option in config_app_items for option in config_app_options)):
-			sys.exit('Required API options were not read from config file %s' %
-				(__config_local_filename__))
+			sys.exit(f'Required API options were not read from config file {__config_local_filename__}')
 		else:
 			return config_app_items
 
@@ -185,8 +184,7 @@ class NapsterAPI:
 		# perform request if we have a valid endpoint
 		if len(requested_api) < 1:
 
-			sys.exit('Endpoint %s was not found in API definition loaded from file %s' % (
-				path_query.path, __json_local_filename__))
+			sys.exit(f'Endpoint {path_query.path} was not found in API definition loaded from file {__json_local_filename__}')
 
 		else:
 			
@@ -198,8 +196,7 @@ class NapsterAPI:
 					self._load_auth_token()
 
 				if self._auth_token != None:
-					headers = {'Authorization': 'Bearer %s' % (self._auth_token['access_token']
-						)}
+					headers = {'Authorization': f"Bearer {self._auth_token['access_token']}"}
 
 			# set query params (explicit params > path/query >  user prompt)
 			if 'params' in requested_api and len(params) < 1:
@@ -232,16 +229,16 @@ class NapsterAPI:
 				# API key required for other requests
 				params['apikey'] = self._api_key
 		
-			request_url = '%s/%s' % (self._api_json['uri'], '/'.join(request_path))
+			request_url = f"{self._api_json['uri']}/{'/'.join(request_path)}"
 
 			print('Requesting...')
 			response = requests.request(method=requested_api['method'], url=request_url,
 				params=params, headers=headers, auth=auth)
-			print('[%s]' % (response.url)) 
+			print(f'[{response.url}]') 
 
 			if (response and 
 				response.headers['Content-Type'] == 'application/json; charset=utf-8'):
 				return response.json()
 			else:
-				print('API returned status code %s' % (response.status_code))
+				print(f'API returned status code {response.status_code}')
 				return response.content

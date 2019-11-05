@@ -18,11 +18,11 @@ def click_cmd(path, archive):
 	response_content = _napster_api.request_api(path)
 
 	if archive == None or type(response_content) != dict:
-		print('Response content:\n%s' % (response_content))
+		print(f'Response content:\n{response_content}')
 	else:
 		# filename provided and JSON (presumably) returned
 		if util.save_json(archive, response_content):
-			print('Response content archived to %s' % (archive))
+			print(f'Response content archived to {archive}')
 
 # Request user authorization using click.prompt()
 # Returns (user, pwd) as str tuple
@@ -34,8 +34,7 @@ def click_prompt_auth():
 # Request query [param: str] using click.prompt()
 # Returns param_val as str
 def click_prompt_param(param):
-	param_val = click.prompt('%s' % (param),
-		prompt_suffix='? ', default='', show_default=False)
+	param_val = click.prompt(param, prompt_suffix='? ', default='', show_default=False)
 	return param_val
 
 if __name__ == "__main__":
